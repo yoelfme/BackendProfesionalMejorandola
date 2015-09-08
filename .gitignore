@@ -1,0 +1,4 @@
+# Files of Python
+*.pyc
+
+dv.sqlite3
