@@ -49,7 +49,9 @@ def add(request):
     if request.method == 'POST':
         form = EnlaceForm(request.POST)
         if form.is_valid():
-            form.save()
+            enlace = form.save(commit = False)
+            enlace.usuario = request.user
+            enlace.save()
             return HttpResponseRedirect('/')
     else:
         form = EnlaceForm()
