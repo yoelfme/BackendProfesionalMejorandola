@@ -1,3 +1,12 @@
 from django.contrib import admin
+from .models import *
 
-# Register your models here.
+class CategoriAdmin(admin.ModelAdmin):
+    list_display = ('titulo', )
+
+
+class EnlaceAdmin(admin.ModelAdmin):
+    list_display = ('titulo', 'enlace')
+
+admin.site.register(Categoria, CategoriAdmin)
+admin.site.register(Enlace, EnlaceAdmin)

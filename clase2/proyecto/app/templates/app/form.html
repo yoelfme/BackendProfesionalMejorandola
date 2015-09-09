@@ -1,16 +1,17 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
 	<meta charset="utf-8" />
 
-	<meta name="viewport" 
+	<meta name="viewport"
 		  content="width=device-width, initial-scale=1, maximum-scale=1" />
 
 	<title>Puls3: Comunidad online de gente pro y (no sé que más escribir)</title>
-	<link rel="stylesheet" href="normalize.css" />
+	<link rel="stylesheet" href="{% static "app/normalize.css" %}" />
 	<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic' rel='stylesheet' type='text/css' />
-	<link rel="stylesheet" href="/static/estilos.css" />
-	<link rel="stylesheet" href="/static/responsive.css" />
+	<link rel="stylesheet" href="{% static "app/estilos.css" %}" />
+	<link rel="stylesheet" href="{% static "app/responsive.css" %}" />
 </head>
 <body>
 	<!-- comentario de lo que sea -->
@@ -49,12 +50,3 @@
 	</footer>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
