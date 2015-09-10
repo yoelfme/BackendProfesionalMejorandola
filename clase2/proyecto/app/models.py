@@ -27,3 +27,10 @@ class Enlace(models.Model):
 
     class Meta:
         ordering = ['-votos']
+
+class Agregador(models.Model):
+    titulo = models.CharField(max_length=140)
+    enlaces = models.ManyToManyField(Enlace)
+
+    def __unicode__(self):
+        return self.titulo
