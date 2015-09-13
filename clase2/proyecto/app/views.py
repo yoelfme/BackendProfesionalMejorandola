@@ -1,12 +1,11 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
-from django.template.loader import get_template
-from django.template import Context
 from datetime import datetime
 from django.template.context import RequestContext
 from django.contrib.auth.decorators import login_required
-from .models import *
+from .models import Enlace, Categoria
 from .forms import *
+from django.views.generic import ListView
+
 
 def home(request):
     categorias = Categoria.objects.all()
@@ -17,6 +16,7 @@ def home(request):
         "categorias": categorias,
         "enlaces": enlaces
     })
+
 
 def categoria(request, id_categoria):
     categorias = Categoria.objects.all()
@@ -29,12 +29,14 @@ def categoria(request, id_categoria):
         "enlaces": enlaces
     })
 
+
 @login_required
 def minus(request, id_enlace):
     enlace = Enlace.objects.get(pk=id_enlace)
     enlace.votos -= 1
     enlace.save()
     return HttpResponseRedirect("/")
+
 
 @login_required
 def plus(request, id_enlace):
@@ -43,13 +45,14 @@ def plus(request, id_enlace):
     enlace.save()
     return HttpResponseRedirect("/")
 
+
 @login_required
 def add(request):
     categorias = Categoria.objects.all()
     if request.method == 'POST':
         form = EnlaceForm(request.POST)
         if form.is_valid():
-            enlace = form.save(commit = False)
+            enlace = form.save(commit=False)
             enlace.usuario = request.user
             enlace.save()
             return HttpResponseRedirect('/')
@@ -59,6 +62,7 @@ def add(request):
     template = 'app/form.html'
     return render(request, template,
                   context_instance=RequestContext(request, locals()))
+
 
 def hora_actual(request):
     # ahora = datetime.now()
@@ -76,3 +80,9 @@ def hora_actual(request):
         'hora': now,
         'usuario': 'Yoel'
     })
+
+
+class EnlaceListView(ListView):
+    model = Enlace
+    template_name = 'app/index.html'
+    context_object_name = 'enlaces'
