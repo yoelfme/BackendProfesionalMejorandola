@@ -1,4 +1,10 @@
 # Files of Python
 *.pyc
+*.pyo
+
+# Files of OSX
+.DS_Store
 
 dv.sqlite3
+backend-env
+db.sqlite3
