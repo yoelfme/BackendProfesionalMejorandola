@@ -39,3 +39,21 @@ class EnlaceTest(TestCase):
 
         res = self.client.get(reverse('add'))
         self.assertEqual(res.status_code, 200)
+
+    def test_add(self):
+        self.assertTrue(self.client.login(username='yoel', password='yoel'))
+        self.assertEqual(Enlace.objects.count(), 0)
+        data = {}
+        data['titulo'] = 'Test titulo'
+        data['enlace'] = 'http://platzi.com'
+        data['categoria'] = self.categoria.id
+
+        res = self.client.post(reverse('add'), data)
+
+        self.assertEqual(res.status_code, 302)
+        self.assertEqual(Enlace.objects.count(), 1)
+
+        enlace = Enlace.objects.all()[0]
+        self.assertEqual(enlace.titulo, data['titulo'])
+        self.assertEqual(enlace.enlace, data['enlace'])
+        self.assertEqual(enlace.categoria, self.categoria)

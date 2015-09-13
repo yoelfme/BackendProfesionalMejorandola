@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from datetime import datetime
+from django.http import HttpResponseRedirect
 from django.template.context import RequestContext
 from django.contrib.auth.decorators import login_required
 from .models import Enlace, Categoria
