@@ -4,7 +4,7 @@ from django.template.context import RequestContext
 from django.contrib.auth.decorators import login_required
 from .models import Enlace, Categoria
 from .forms import *
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 
 def home(request):
@@ -86,3 +86,8 @@ class EnlaceListView(ListView):
     model = Enlace
     template_name = 'app/index.html'
     context_object_name = 'enlaces'
+
+
+class EnlaceDetailView(DetailView):
+    model = Enlace
+    template_name = 'app/index.html'
