@@ -7,6 +7,10 @@ from .models import Enlace, Categoria
 from .forms import *
 from django.views.generic import ListView, DetailView
 
+from .serializers import EnlaceSerializer, UserSerializer
+from rest_framework import viewsets
+from django.contrib.auth.models import User
+
 
 def home(request):
     categorias = Categoria.objects.all()
@@ -92,3 +96,12 @@ class EnlaceListView(ListView):
 class EnlaceDetailView(DetailView):
     model = Enlace
     template_name = 'app/index.html'
+
+
+class EnlaceViewSet(viewsets.ModelViewSet):
+    queryset = Enlace.objects.all()
+    serializer_class = EnlaceSerializer
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
