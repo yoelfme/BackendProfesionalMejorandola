@@ -1,12 +1,18 @@
 from random import choice
 from django.core.urlresolvers import reverse
+from django.core.cache import cache
 
 frases = ['Leonidas esta sentado', 'Freddy se fue', 'Christian esta arriba']
 
 
 def ejemplo(request):
+    frase = cache.get('frase_cool')
+    if frase is None:
+        frase = choice(frases)
+        cache.set('frase_cool', frase)
+
     return {
-        'frase': choice(frases)
+        'frase': frase
     }
 
 
