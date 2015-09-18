@@ -12,12 +12,15 @@ from rest_framework import viewsets
 from django.contrib.auth.models import User
 from django.views.decorators.cache import cache_page
 
+from .tasks import calculo
+
 
 @cache_page(6000)
 def home(request):
     categorias = Categoria.objects.all()
     enlaces = Enlace.objects.all()
     template = "app/index.html"
+    calculo.delay()
 
     return render(request, template, {
         "categorias": categorias,
