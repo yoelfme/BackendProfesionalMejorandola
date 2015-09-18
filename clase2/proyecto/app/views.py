@@ -60,7 +60,7 @@ def plus(request, id_enlace):
 def add(request):
     categorias = Categoria.objects.all()
     if request.method == 'POST':
-        form = EnlaceForm(request.POST)
+        form = EnlaceForm(request.POST, request.FILES)
         if form.is_valid():
             enlace = form.save(commit=False)
             enlace.usuario = request.user

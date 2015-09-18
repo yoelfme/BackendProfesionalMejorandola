@@ -39,12 +39,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'djcelery',
     # Own Apps
     'app',
     'rest_framework',
     # Vendor Apps
     'mockups',
+    'djcelery',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -143,5 +143,5 @@ STATICFILES_DIRS = (
    # Put strings here, like "/home/html/static" or "C:/www/django/static".
    # Always use forward slashes, even on Windows.
    # Don't forget to use absolute paths, not relative paths.
-   os.sep.join(os.path.abspath(__file__).split(os.sep)[:-2] + ['content']),
+   os.sep.join(os.path.abspath(__file__).split(os.sep)[:-2] + ['static']),
 )
