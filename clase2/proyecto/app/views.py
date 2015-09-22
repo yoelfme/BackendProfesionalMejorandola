@@ -20,7 +20,7 @@ def home(request):
     categorias = Categoria.objects.all()
     enlaces = Enlace.objects.all()
     template = "app/index.html"
-    calculo.delay()
+    # calculo.delay()
 
     return render(request, template, {
         "categorias": categorias,

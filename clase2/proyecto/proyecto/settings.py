@@ -23,11 +23,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '(k5g(p%#wvs%(i_^qnu8^c-a%n*1g9ordqc(#22wmfut(z3v1('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 
 # Application definition
@@ -44,11 +44,11 @@ INSTALLED_APPS = (
     'rest_framework',
     # Vendor Apps
     'mockups',
-    'djcelery',
+    # 'djcelery',
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.cache.UpdateCacheMiddleware',
+    # 'django.middleware.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -58,7 +58,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'app.middleware.PaisMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
+    # 'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
@@ -110,21 +110,21 @@ USE_L10N = True
 
 USE_TZ = True
 
-CACHES = {
-    'default': {
-        'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION': 'localhost:6379',
-        'OPTIONS': {
-            'DB': 1,
-            'PARSER_CLASS': 'redis.connection.HiredisParser'
-        }
-    }
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'redis_cache.RedisCache',
+#         'LOCATION': 'localhost:6379',
+#         'OPTIONS': {
+#             'DB': 1,
+#             'PARSER_CLASS': 'redis.connection.HiredisParser'
+#         }
+#     }
+# }
 
-import djcelery
-djcelery.setup_loader()
+# import djcelery
+# djcelery.setup_loader()
 
-BROKER_URL = 'redis://localhost:6379/0'
+# BROKER_URL = 'redis://localhost:6379/0'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
