@@ -24,11 +24,30 @@ app.use(session({
     secret: 'lolcatz' 
 }));
 
-app.get('/', function (req, res) {
+// Configurando middleware
+
+var isntLoggedIn = function(req, res, next) {
+    if (!req.session.user){
+        res.redirect('/');
+        return;
+    }
+
+    next();
+}
+
+var isLoggedIn = function(req, res, next) {
+    if(req.session.user) {
+        res.redirect('/app');
+    }
+
+    next();
+}
+
+app.get('/', isLoggedIn, function (req, res) {
     res.render('home');
 });
 
-app.get('/app', function (req, res) {
+app.get('/app', isntLoggedIn, function (req, res) {
     res.render('app', {
         user: req.session.user
     });
