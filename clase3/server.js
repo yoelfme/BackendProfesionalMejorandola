@@ -5,8 +5,13 @@ var messages = [];
 var responses = [];
 
 app.get('/', function (req, res) {
+    debugger;
     res.send('Hello World!')
 })
+
+app.get('/supervisor', function(req, res){
+    res.send('Esto es supervisor :)')
+});
 
 app.get('/messages', function (req, res) {
     responses.push(res);
