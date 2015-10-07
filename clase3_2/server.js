@@ -5,8 +5,10 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
+var _ = require('underscore');
 
 var app = express();
+var users = [];
 
 // Configuracion para mostrar vistas
 app.engine('html', swig.renderFile);
@@ -49,14 +51,23 @@ app.get('/', isLoggedIn, function (req, res) {
 
 app.get('/app', isntLoggedIn, function (req, res) {
     res.render('app', {
-        user: req.session.user
+        user: req.session.user,
+        users: users
     });
 })
 
 app.post('/log-in', function(req, res){
+    users.push(req.body.username);
     req.session.user = req.body.username;
 
     res.redirect('/app')
+});
+
+app.get('/log-out', function (req, res) {
+    users = _.without(users, req.session.user);
+
+    req.session.destroy();
+    res.redirect('/');
 });
 
 var server = app.listen(3000, function(){
