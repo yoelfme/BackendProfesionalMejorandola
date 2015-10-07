@@ -1,5 +1,10 @@
-var express = require('express'),
-    swig = require('swig');
+var express = require('express');
+var swig = require('swig');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 
 var app = express();
 
@@ -8,12 +13,31 @@ app.engine('html', swig.renderFile);
 app.set('view engine', 'html')
 app.set('views', './app/views')
 
-app.get('/', function(req, res){
+// Configurando post, cookies y sesiones
+app.use(logger('dev'));
+app.use(cookieParser())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+app.use(session({
+    sotre: new RedisStore({}),
+    secret: 'lolcatz' 
+}));
+
+app.get('/', function (req, res) {
     res.render('home');
 });
 
+app.get('/app', function (req, res) {
+    res.render('app', {
+        user: req.session.user
+    });
+})
+
 app.post('/log-in', function(req, res){
-    res.render('Quien eres?');
+    req.session.user = req.body.username;
+
+    res.redirect('/app')
 });
 
 var server = app.listen(3000, function(){
