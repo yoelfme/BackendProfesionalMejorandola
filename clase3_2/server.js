@@ -8,6 +8,8 @@ var RedisStore = require('connect-redis')(session);
 var _ = require('underscore');
 
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 var users = [];
 
 // Configuracion para mostrar vistas
@@ -70,7 +72,7 @@ app.get('/log-out', function (req, res) {
     res.redirect('/');
 });
 
-var server = app.listen(3000, function(){
+server.listen(3000, function(){
     var host = server.address().address;
     var port = server.address().port;
 
