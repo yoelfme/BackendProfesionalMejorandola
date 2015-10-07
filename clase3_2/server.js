@@ -17,19 +17,22 @@ app.engine('html', swig.renderFile);
 app.set('view engine', 'html')
 app.set('views', './app/views')
 
-// Configurando post, cookies y sesiones
+// Configurando post, cookies
 app.use(logger('dev'));
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+// Configurando sesiones
 app.use(session({
     sotre: new RedisStore({}),
     secret: 'lolcatz' 
 }));
 
-// Configurando middleware
+// configurando archivos estaticos
+app.use(express.static('public'));
 
+// Configurando middleware
 var isntLoggedIn = function(req, res, next) {
     if (!req.session.user){
         res.redirect('/');
@@ -71,6 +74,16 @@ app.get('/log-out', function (req, res) {
     req.session.destroy();
     res.redirect('/');
 });
+
+// Configurando socket.io
+io.on('connection', function(socket){
+    debugger;
+    socket.on('hello?', function(data) {
+        socket.emit('saludo', {
+            message: 'serverReady'
+        });
+    })
+})
 
 server.listen(3000, function(){
     var host = server.address().address;
