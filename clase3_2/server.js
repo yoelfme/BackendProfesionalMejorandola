@@ -65,6 +65,10 @@ app.post('/log-in', function(req, res){
     users.push(req.body.username);
     req.session.user = req.body.username;
 
+    io.emit('log-in', {
+        username: req.session.user
+    })
+
     res.redirect('/app')
 });
 
@@ -77,7 +81,6 @@ app.get('/log-out', function (req, res) {
 
 // Configurando socket.io
 io.on('connection', function(socket){
-    debugger;
     socket.on('hello?', function(data) {
         socket.emit('saludo', {
             message: 'serverReady'
