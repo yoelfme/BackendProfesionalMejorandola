@@ -8,9 +8,8 @@
 
 {% block content %}
     <h2>Bienvenido {{ user }}</h2>
-    <ul id="users"></ul>
     <a href="/log-out">Log Out</a>
-    <ul>
+    <ul id="users">
         {% for person in users %}
             <li>{{ person }}</li>
         {% endfor %}

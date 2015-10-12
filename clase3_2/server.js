@@ -75,6 +75,10 @@ app.post('/log-in', function(req, res){
 app.get('/log-out', function (req, res) {
     users = _.without(users, req.session.user);
 
+    io.emit('log-out', {
+        username: req.session.user
+    });
+
     req.session.destroy();
     res.redirect('/');
 });
