@@ -17,16 +17,12 @@ var twitterConnection = function (app) {
             // be associated with a user record in the application's database, which
             // allows for account linking and authentication with other identity
             // providers.
-            debugger;
-
             var user = new User({
                 username: profile.username,
                 twitter: profile
             });
 
             user.save(function (err) {
-                debugger;
-
                 if (err) {
                     return cb(err, null); 
                 }

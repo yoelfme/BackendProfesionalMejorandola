@@ -1,7 +1,8 @@
 var User = require('../models/user');
 var Post = require('../models/post');
+var _ = require('underscore');
 
-var appController = function (app, users) {
+var appController = function (app, users, io) {
     console.log('appController esta cargado');
 
     var isntLoggedIn = function(req, res, next) {
@@ -22,10 +23,19 @@ var appController = function (app, users) {
     };
 
     app.get('/app', isntLoggedIn, function (req, res) {
-        res.render('app', {
-            user: req.session.passport.user,
-            users: users
-        });
+        Post.find({})
+            .populate('user')
+            .exec(function(err, posts) {
+                var postsAsJson = _.map(posts, function (post) {
+                    return post.toJSON();
+                });
+
+                res.render('app', {
+                    user: req.session.passport.user,
+                    users: users,
+                    posts: postsAsJson
+                });
+            });
     });
 
     app.post('/app/create-post', isntLoggedIn, getUser, function (req, res) {
@@ -35,10 +45,14 @@ var appController = function (app, users) {
         });
 
         post.save(function (err) {
-            debugger;
             if (err) {
                 res.send(500, err);
             }
+
+            io.emit('post', {
+                content: post.content,
+                user: req.user.toJSON()
+            });
 
             res.redirect('/app');
         });

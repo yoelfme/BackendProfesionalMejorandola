@@ -16,4 +16,10 @@
             <button>Post</button>
         </form>
     </div>
+
+    <div id="posts">
+        {% for post in posts %}
+            <p>{{ post.user.username }} : {{ post.content }}</p>
+        {% endfor %}
+    </div>
 {% endblock %}

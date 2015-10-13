@@ -49,8 +49,8 @@ app.use(express.static('public'));
 var homeController = require('./app/controllers/home');
 var appController = require('./app/controllers/app');
 
-homeController(app, users);
-appController(app, users);
+homeController(app, users, io);
+appController(app, users, io);
 
 // Agregando conexiones
 var twitterConnection = require('./app/connections/twitter');
