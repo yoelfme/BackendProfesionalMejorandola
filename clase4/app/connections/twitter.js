@@ -1,6 +1,7 @@
 var passport = require('passport');
 var passportTwitter = require('passport-twitter');
 var TwitterStrategy = passportTwitter.Strategy;
+var User = require('../models/user')
 
 var twitterConnection = function (app) {
     console.log('twitterConnection ready');
@@ -16,13 +17,28 @@ var twitterConnection = function (app) {
             // be associated with a user record in the application's database, which
             // allows for account linking and authentication with other identity
             // providers.
-            return cb(null, profile);
+            debugger;
+
+            var user = new User({
+                username: profile.username,
+                twitter: profile
+            });
+
+            user.save(function (err) {
+                debugger;
+
+                if (err) {
+                    return cb(err, null); 
+                }
+
+                return cb(null, profile);
+            });
         }));
 
     app.get('/auth/twitter', passport.authenticate('twitter'));
 
     app.get('/auth/twitter/callback', 
-        passport.authenticate('twitter', { failureRedirect: '/' }),
+        passport.authenticate('twitter', { failureRedirect: '/app' }),
         function(req, res) {
             res.redirect('/app');
         });
