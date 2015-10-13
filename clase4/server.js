@@ -26,13 +26,21 @@ app.use(bodyParser.json())
 
 // Configurando sesiones
 app.use(session({
-    sotre: new RedisStore({}),
+    store: new RedisStore({}),
     secret: 'lolcatz' 
 }));
 
 // Configurar passport
 app.use(passport.initialize());
 app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 
 // Configurando archivos estaticos
 app.use(express.static('public'));
