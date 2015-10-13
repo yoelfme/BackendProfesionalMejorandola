@@ -6,6 +6,7 @@ var logger = require('morgan');
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var _ = require('underscore');
+var passport = require('passport');
 
 var app = express();
 var server = require('http').Server(app);
@@ -29,6 +30,10 @@ app.use(session({
     secret: 'lolcatz' 
 }));
 
+// Configurar passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Configurando archivos estaticos
 app.use(express.static('public'));
 
@@ -38,6 +43,11 @@ var appController = require('./app/controllers/app');
 
 homeController(app, users);
 appController(app, users);
+
+// Agregando conexiones
+var twitterConnection = require('./app/connections/twitter');
+
+twitterConnection(app);
 
 server.listen(3000, function(){
     var host = server.address().address;
