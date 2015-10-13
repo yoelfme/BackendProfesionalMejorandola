@@ -9,4 +9,11 @@
 {% block content %}
     <h2>Bienvenido {{ user.username }}</h2>
     <a href="/log-out">Log Out</a>
+
+    <div>
+        <form action="/app/create-post" method="POST">
+            <textarea name="content"></textarea>
+            <button>Post</button>
+        </form>
+    </div>
 {% endblock %}
